@@ -2,13 +2,271 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Work Motivator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Work Motivator | 上班鼓励器</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0d1220;color:#f3f5fc;
+font-family:Arial,"Microsoft YaHei",sans-serif}
+main{max-width:1120px;margin:auto;padding:36px 24px}
+header{display:flex;justify-content:space-between;
+align-items:center;margin-bottom:30px}
+h1{font-size:26px;margin:0}
+.sub{color:#96a3bd;font-size:13px;margin-top:8px}
+.tag{color:#f4c875;border:1px solid #48516b;
+border-radius:20px;padding:9px 14px;font-size:12px}
+.grid{display:grid;grid-template-columns:1.4fr 1fr;
+gap:20px}
+.card{background:#1a2336;border:1px solid #303c54;
+border-radius:18px;padding:26px}
+.card h2{font-size:16px;margin:0 0 22px}
+.hero{text-align:center;padding:42px 20px}
+.muted{color:#9daac2}
+.timer{font-size:clamp(38px,5vw,65px);
+font-weight:800;letter-spacing:2px;margin:18px 0;
+font-variant-numeric:tabular-nums}
+.gold{color:#f3c675}
+.earned{font-size:clamp(32px,4vw,48px);
+font-weight:800;color:#79e3b4;margin:12px 0;
+overflow-wrap:anywhere}
+.quote{font-size:20px;line-height:1.7;
+min-height:72px;margin:24px 0}
+button{border:0;background:#f3c675;color:#172033;
+padding:13px 20px;border-radius:10px;font-size:15px;
+font-weight:700;cursor:pointer}
+button:hover{background:#ffda94}
+label{display:block;color:#aebbd1;font-size:13px;
+margin:16px 0 7px}
+input,select{width:100%;background:#10182a;
+border:1px solid #45516a;color:white;
+border-radius:9px;padding:12px;font-size:15px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);
+gap:15px;margin-top:20px}
+.stat{text-align:center}
+.stat strong{display:block;font-size:22px;
+color:#f3c675;margin-top:10px;overflow-wrap:anywhere}
+.progress{height:11px;background:#35415a;
+border-radius:20px;overflow:hidden;margin-top:18px}
+.bar{height:100%;width:0;background:#79e3b4;
+transition:width 1s}
+footer{text-align:center;color:#71809b;
+font-size:12px;margin-top:35px}
+@media(max-width:760px){
+.grid,.stats{grid-template-columns:1fr}
+header{gap:12px}
+.card{padding:20px}
+}
+</style>
 </head>
 <body>
-  <h1>上班鼓励器 💼</h1>
-  <p>我的 Work Motivator 网站创建成功！</p>
-  <p>即将加入薪水计算器、货币选择和下班倒数。</p>
+<main>
+<header>
+<div>
+<h1>💼 Work Motivator</h1>
+<div class="sub">上班鼓励器 · 每一秒都在赚钱</div>
+</div>
+<div class="tag">DESKTOP EDITION</div>
+</header>
+
+<div class="grid">
+<section class="card">
+<div class="hero">
+<div class="muted">距离下班还有</div>
+<div class="timer gold" id="countdown">00:00:00</div>
+<div class="muted" id="status">正在计算工作时间...</div>
+<hr style="border:0;border-top:1px solid #35415a;
+margin:32px 0">
+<div class="muted">今天已经赚到</div>
+<div class="earned" id="earned">RM 0.00</div>
+<div class="muted" id="workInfo">计算中...</div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="quote" id="quote">努力上班，快乐赚钱！</div>
+<button id="quoteButton">✨ 再给我一点动力</button>
+</div>
+</section>
+
+<section class="card">
+<h2>⚙️ 我的工作设置</h2>
+<label for="currency">选择货币</label>
+<select id="currency">
+<option value="MYR">🇲🇾 MYR - 马来西亚令吉</option>
+<option value="USD">🇺🇸 USD - 美元</option>
+<option value="SGD">🇸🇬 SGD - 新加坡元</option>
+<option value="CNY">🇨🇳 CNY - 人民币</option>
+<option value="TWD">🇹🇼 TWD - 新台币</option>
+<option value="HKD">🇭🇰 HKD - 港币</option>
+<option value="VND">🇻🇳 VND - 越南盾</option>
+<option value="THB">🇹🇭 THB - 泰铢</option>
+<option value="LKR">🇱🇰 LKR - 斯里兰卡卢比</option>
+<option value="EUR">🇪🇺 EUR - 欧元</option>
+</select>
+
+<label for="salary">每月薪水</label>
+<input id="salary" type="number" min="0" value="5000">
+
+<label for="days">每月工作天数</label>
+<input id="days" type="number" min="1" max="31" value="22">
+
+<div class="two">
+<div>
+<label for="start">上班时间</label>
+<input id="start" type="time" value="09:00">
+</div>
+<div>
+<label for="end">下班时间</label>
+<input id="end" type="time" value="18:00">
+</div>
+</div>
+
+<label for="breaks">每天休息分钟数（不计薪）</label>
+<input id="breaks" type="number" min="0" value="60">
+<p class="sub">设置会自动保存在当前浏览器。</p>
+</section>
+</div>
+
+<div class="stats">
+<div class="card stat">
+<div class="muted">每小时赚取</div>
+<strong id="hourly">RM 0.00</strong>
+</div>
+<div class="card stat">
+<div class="muted">每分钟赚取</div>
+<strong id="minute">RM 0.00</strong>
+</div>
+<div class="card stat">
+<div class="muted">每秒赚取</div>
+<strong id="second">RM 0.0000</strong>
+</div>
+</div>
+<footer>WORK MOTIVATOR · 努力赚钱，也要记得休息</footer>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const ids=["currency","salary","days","start","end","breaks"];
+const symbols={
+MYR:"RM",USD:"$",SGD:"S$",CNY:"¥",
+TWD:"NT$",HKD:"HK$",VND:"₫",THB:"฿",
+LKR:"Rs",EUR:"€"
+};
+const quotes=[
+"努力工作不一定发财，但不工作一定没工资。",
+"今天的努力，是明天的奶茶钱。",
+"只要还没下班，就还有赚钱的机会。",
+"工资正在到账的路上，坚持一下！",
+"别看时间，看你已经赚了多少钱。",
+"工作可以慢慢做，薪水必须准时发。",
+"你的每一秒，都是有价值的。",
+"距离财务自由，又努力了一天。",
+"生活不止眼前的工作，还有下班后的快乐。",
+"加油！距离下班又近了一秒。"
+];
+
+function randomQuote(){
+let current=$("quote").textContent;
+let options=quotes.filter(q=>q!==current);
+$("quote").textContent=
+options[Math.floor(Math.random()*options.length)];
+}
+$("quoteButton").addEventListener("click",randomQuote);
+
+try{
+const saved=JSON.parse(localStorage.getItem("workMotivatorSettings"));
+if(saved){
+ids.forEach(id=>{
+if(saved[id]!==undefined)$(id).value=saved[id];
+});
+}
+}catch(e){}
+
+function save(){
+let settings={};
+ids.forEach(id=>settings[id]=$(id).value);
+try{
+localStorage.setItem("workMotivatorSettings",
+JSON.stringify(settings));
+}catch(e){}
+update();
+}
+ids.forEach(id=>$(id).addEventListener("input",save));
+
+function formatMoney(amount,decimals=2){
+let currency=$("currency").value;
+let symbol=symbols[currency]||currency;
+return symbol+" "+amount.toLocaleString("en-US",{
+minimumFractionDigits:decimals,
+maximumFractionDigits:decimals
+});
+}
+function timeMinutes(value){
+let [h,m]=value.split(":").map(Number);
+return h*60+m;
+}
+function clock(seconds){
+seconds=Math.max(0,Math.floor(seconds));
+let h=Math.floor(seconds/3600);
+let m=Math.floor(seconds%3600/60);
+let s=seconds%60;
+return [h,m,s].map(v=>String(v).padStart(2,"0")).join(":");
+}
+function update(){
+let salary=Number($("salary").value);
+let days=Number($("days").value);
+let breaks=Number($("breaks").value);
+let start=timeMinutes($("start").value);
+let end=timeMinutes($("end").value);
+let duration=end-start;
+let paidMinutes=duration-breaks;
+let valid=Number.isFinite(salary)&&salary>=0&&
+days>0&&days<=31&&breaks>=0&&paidMinutes>0;
+
+if(!valid){
+$("status").textContent="请检查薪水、工作天数及时间设置";
+$("countdown").textContent="--:--:--";
+$("earned").textContent="--";
+$("workInfo").textContent="设置无效";
+$("bar").style.width="0%";
+["hourly","minute","second"].forEach(id=>$(id).textContent="--");
+return;
+}
+
+let perSecond=salary/(days*paidMinutes*60);
+$("hourly").textContent=formatMoney(perSecond*3600);
+$("minute").textContent=formatMoney(perSecond*60,4);
+$("second").textContent=formatMoney(perSecond,4);
+
+let now=new Date();
+let secondsNow=now.getHours()*3600+
+now.getMinutes()*60+now.getSeconds();
+let startSeconds=start*60;
+let endSeconds=end*60;
+let elapsed=Math.max(0,Math.min(
+secondsNow-startSeconds,duration*60));
+let breakSeconds=breaks*60;
+let paidElapsed=Math.max(0,elapsed-breakSeconds);
+let earned=Math.min(salary/days,paidElapsed*perSecond);
+let progress=elapsed/(duration*60)*100;
+
+$("earned").textContent=formatMoney(earned,4);
+$("bar").style.width=progress+"%";
+$("workInfo").textContent=
+"今日工作进度 "+progress.toFixed(1)+"%";
+
+if(secondsNow<startSeconds){
+$("countdown").textContent=clock(endSeconds-secondsNow);
+$("status").textContent="还没上班，准备迎接新的一天";
+}else if(secondsNow>=endSeconds){
+$("countdown").textContent="00:00:00";
+$("status").textContent="🎉 下班啦！辛苦了！";
+}else{
+$("countdown").textContent=clock(endSeconds-secondsNow);
+$("status").textContent="正在上班 · 每一秒都在累积收入";
+}
+}
+update();
+setInterval(update,1000);
+</script>
 </body>
 </html>
