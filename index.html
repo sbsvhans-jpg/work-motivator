@@ -1291,10 +1291,24 @@ function updateTodayIncomeSavePanel() {
     const savedAmount = Number(record.income);
     const savedCurrency = record.currency || $("currency").value;
 
-    info.textContent =
-      "已保存：" +
-      savedCurrency + " " +
-      savedAmount.toFixed(2);
+   
+const savedCurrencySymbols = {
+  MYR: "RM", USD: "$", SGD: "S$",
+  CNY: "¥", TWD: "NT$", HKD: "HK$",
+  VND: "₫", THB: "฿", LKR: "Rs", EUR: "€"
+};
+
+const savedSymbol =
+  savedCurrencySymbols[savedCurrency] || savedCurrency;
+
+info.textContent =
+  "已保存：" +
+  savedSymbol + " " +
+  savedAmount.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+
 
     button.textContent = "今日收入已保存";
     button.disabled = true;
