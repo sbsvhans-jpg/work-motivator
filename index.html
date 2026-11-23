@@ -207,6 +207,51 @@ margin:32px 0">
 
 <script>
 const $=id=>document.getElementById(id);
+  
+/* Work Motivator V2.0 - Theme System */
+const themeSelect = $("themeSelect");
+
+const availableThemes = [
+  "dark",
+  "light",
+  "blue",
+  "purple",
+  "green"
+];
+
+let savedTheme = "dark";
+
+try {
+  const storedTheme = localStorage.getItem("workMotivatorTheme");
+
+  if (availableThemes.includes(storedTheme)) {
+    savedTheme = storedTheme;
+  }
+} catch (e) {
+  console.log("Theme storage unavailable");
+}
+
+function applyTheme(theme) {
+  if (!availableThemes.includes(theme)) {
+    theme = "dark";
+  }
+
+  document.body.setAttribute("data-theme", theme);
+  themeSelect.value = theme;
+
+  try {
+    localStorage.setItem("workMotivatorTheme", theme);
+  } catch (e) {
+    console.log("Unable to save theme");
+  }
+}
+
+themeSelect.addEventListener("change", function () {
+  applyTheme(this.value);
+});
+
+applyTheme(savedTheme);
+
 const ids=["currency","salary","days","start","end","breaks"];
 const symbols={
 MYR:"RM",USD:"$",SGD:"S$",CNY:"¥",
