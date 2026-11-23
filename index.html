@@ -486,6 +486,53 @@ $("status").textContent="正在上班 · 每一秒都在累积收入";
 }
 update();
 setInterval(update,1000);
+
+/* V2.0 - Date, Weekday and Chinese Lunar Date */
+
+function updateDateDisplay() {
+  const now = new Date();
+
+  const solarFormatter = new Intl.DateTimeFormat(
+    "zh-CN",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "long"
+    }
+  );
+
+  const lunarFormatter = new Intl.DateTimeFormat(
+    "zh-CN-u-ca-chinese",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    }
+  );
+
+  const solarDate = solarFormatter.format(now);
+  const lunarParts = lunarFormatter.formatToParts(now);
+
+  const lunarMonth =
+    lunarParts.find(p => p.type === "month")?.value || "";
+
+  const lunarDay =
+    lunarParts.find(p => p.type === "day")?.value || "";
+
+  const lunarYear =
+    lunarParts.find(p => p.type === "relatedYear")?.value || "";
+
+  $("currentDate").textContent = solarDate;
+
+  $("lunarDate").textContent =
+    "农历：" + lunarYear + "年 " +
+    lunarMonth + lunarDay;
+}
+
+updateDateDisplay();
+setInterval(updateDateDisplay, 60000);
+
 </script>
 </body>
 </html>
