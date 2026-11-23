@@ -940,6 +940,24 @@ function saveDailyIncomeRecord(dateKey) {
 
     // Click a date to toggle its work status
     dayCell.addEventListener("click", function () {
+     
+      // Protect saved historical income
+      const existingRecord = calendarRecords[dateKey];
+
+      if (
+        existingRecord &&
+        Object.prototype.hasOwnProperty.call(
+          existingRecord,
+          "income"
+        )
+      ) {
+        alert(
+          "此日期已有保存的历史收入，" +
+          "为了保护记录，暂时不能更改上班状态。"
+        );
+        return;
+      }
+
       const nextStatus =
         dayCell.classList.contains("workday")
           ? "restday"
