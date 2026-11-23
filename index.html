@@ -805,7 +805,43 @@ calendarViewDate.setDate(1);
 
 /* V2.0 - Calendar Daily Income */
 
-function getCalendarDailyIncome() {
+
+/* V2.0 - Historical Daily Income */
+
+function saveDailyIncomeRecord(dateKey) {
+  const existing = calendarRecords[dateKey];
+
+  const record =
+    existing &&
+    typeof existing === "object" &&
+    !Array.isArray(existing)
+      ? existing
+      : {};
+
+  // Never overwrite an existing historical income
+  if (Object.prototype.hasOwnProperty.call(record, "income")) {
+    return true;
+  }
+
+  const dailyIncome = getCalendarDailyIncome();
+
+  const currency = $("currency").value;
+
+  if (!Number.isFinite(dailyIncome) || dailyIncome < 0) {
+    return false;
+  }
+
+  calendarRecords[dateKey] = {
+    ...record,
+    income: Number(dailyIncome.toFixed(6)),
+    currency: currency,
+    recordedAt: new Date().toISOString()
+  };
+
+  return saveCalendarRecords();
+}
+
+  function getCalendarDailyIncome() {
   const salary = Number($("salary").value);
   const days = Number($("days").value);
 
