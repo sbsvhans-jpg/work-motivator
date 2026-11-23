@@ -466,8 +466,12 @@ $("minute").textContent=formatMoney(perSecond*60,4);
 $("second").textContent=formatMoney(perSecond,4);
 
 let now=new Date();
-let secondsNow=now.getHours()*3600+
-now.getMinutes()*60+now.getSeconds();
+
+let secondsNow = now.getHours() * 3600 +
+  now.getMinutes() * 60 +
+  now.getSeconds() +
+  now.getMilliseconds() / 1000;
+
 let startSeconds=start*60;
 let endSeconds=end*60;
 let elapsed=Math.max(0,Math.min(
@@ -494,7 +498,9 @@ $("status").textContent="正在上班 · 每一秒都在累积收入";
 }
 }
 update();
-setInterval(update,1000);
+
+setInterval(update, 30);
+
 
 /* V2.0 - Date, Weekday and Chinese Lunar Date */
 
