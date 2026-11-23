@@ -730,7 +730,51 @@ setInterval(updateDateDisplay, 60000);
 
 /* V2.0 - Work Calendar Engine */
 
-let calendarViewDate = new Date();
+
+/* Calendar Data Storage */
+
+const calendarStorageKey = "workMotivatorCalendar";
+
+let calendarRecords = {};
+
+try {
+  const savedRecords = JSON.parse(
+    localStorage.getItem(calendarStorageKey) || "{}"
+  );
+
+  if (
+    savedRecords &&
+    typeof savedRecords === "object" &&
+    !Array.isArray(savedRecords)
+  ) {
+    calendarRecords = savedRecords;
+  }
+} catch (error) {
+  console.warn("Calendar data could not be loaded", error);
+}
+
+function getCalendarDateKey(year, month, day) {
+  return (
+    year + "-" +
+    String(month + 1).padStart(2, "0") + "-" +
+    String(day).padStart(2, "0")
+  );
+}
+
+function saveCalendarRecords() {
+  try {
+    localStorage.setItem(
+      calendarStorageKey,
+      JSON.stringify(calendarRecords)
+    );
+    return true;
+  } catch (error) {
+    console.error("Calendar data could not be saved", error);
+    return false;
+  }
+}
+
+  let calendarViewDate = new Date();
 calendarViewDate.setDate(1);
 
 function renderWorkCalendar() {
