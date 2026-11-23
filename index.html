@@ -802,7 +802,27 @@ function saveCalendarRecords() {
   let calendarViewDate = new Date();
 calendarViewDate.setDate(1);
 
-function renderWorkCalendar() {
+
+/* V2.0 - Calendar Daily Income */
+
+function getCalendarDailyIncome() {
+  const salary = Number($("salary").value);
+  const days = Number($("days").value);
+
+  if (
+    !Number.isFinite(salary) ||
+    salary < 0 ||
+    !Number.isFinite(days) ||
+    days <= 0 ||
+    days > 31
+  ) {
+    return 0;
+  }
+
+  return salary / days;
+}
+
+  function renderWorkCalendar() {
   const year = calendarViewDate.getFullYear();
   const month = calendarViewDate.getMonth();
 
