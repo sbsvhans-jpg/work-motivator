@@ -814,12 +814,53 @@ function renderWorkCalendar() {
     dayCell.type = "button";
     dayCell.className = "calendar-day";
 
-    // Default: Monday-Friday workdays
-    if (weekday === 0 || weekday === 6) {
-      dayCell.classList.add("restday");
-    } else {
-      dayCell.classList.add("workday");
-    }
+   
+    // Read saved status or use weekday default
+    const dateKey = getCalendarDateKey(year, month, day);
+    const savedRecord = calendarRecords[dateKey];
+
+    const defaultStatus =
+      weekday === 0 || weekday === 6
+        ? "restday"
+        : "workday";
+
+    const savedStatus =
+      savedRecord &&
+      (savedRecord.status === "workday" ||
+       savedRecord.status === "restday")
+        ? savedRecord.status
+        : null;
+
+    const currentStatus = savedStatus || defaultStatus;
+
+    dayCell.classList.add(currentStatus);
+
+    // Click a date to toggle its work status
+    dayCell.addEventListener("click", function () {
+      const nextStatus =
+        dayCell.classList.contains("workday")
+          ? "restday"
+          : "workday";
+
+      const previousRecord = calendarRecords[dateKey];
+
+      calendarRecords[dateKey] = {
+        ...(previousRecord &&
+          typeof previousRecord === "object" &&
+          !Array.isArray(previousRecord)
+            ? previousRecord
+            : {}),
+        status: nextStatus
+      };
+
+      if (!saveCalendarRecords()) {
+        alert("日历记录保存失败，请检查浏览器储存空间。");
+        return;
+      }
+
+      renderWorkCalendar();
+    });
+
 
     // Highlight today
     if (
