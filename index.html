@@ -1534,7 +1534,8 @@ async function (position) {
 
     const cityName = city + ", " + country;
 
-    localStorage.setItem("workMotivatorCity", cityName);
+    localStorage.setItem("workMotivatorCity", cityName);   
+    localStorage.setItem("workMotivatorCitySource", "auto");
     updateClockLocation();
 
     alert("✅ 自动定位成功：" + cityName);
