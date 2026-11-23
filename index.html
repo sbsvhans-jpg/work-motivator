@@ -1493,11 +1493,62 @@ if (detectClockCityButton) {
     detectClockCityButton.textContent = "定位中...";
 
     navigator.geolocation.getCurrentPosition(
-      function () {
-        alert("✅ 定位权限测试成功！下一步将自动识别城市。");
-        detectClockCityButton.disabled = false;
-        detectClockCityButton.textContent = "◎ 自动定位";
-      },
+     
+async function (position) {
+  try {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+
+    const url =
+      "https://nominatim.openstreetmap.org/reverse?" +
+      new URLSearchParams({
+        format: "json",
+        lat: latitude,
+        lon: longitude,
+        zoom: "10",
+        addressdetails: "1",
+        "accept-language": "en"
+      });
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("城市查询服务暂时不可用");
+    }
+
+    const data = await response.json();
+    const address = data.address || {};
+
+    const city =
+      address.city ||
+      address.town ||
+      address.village ||
+      address.municipality ||
+      address.county;
+
+    const country = address.country;
+
+    if (!city || !country) {
+      throw new Error("无法识别城市或国家");
+    }
+
+    const cityName = city + ", " + country;
+
+    localStorage.setItem("workMotivatorCity", cityName);
+    updateClockLocation();
+
+    alert("✅ 自动定位成功：" + cityName);
+  } catch (error) {
+    alert(
+      "自动识别城市失败：" + error.message +
+      "\n你仍然可以手动设置城市。"
+    );
+  } finally {
+    detectClockCityButton.disabled = false;
+    detectClockCityButton.textContent = "◎ 自动定位";
+  }
+},
+
       function (error) {
         alert("定位失败：" + error.message);
         detectClockCityButton.disabled = false;
