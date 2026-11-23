@@ -44,8 +44,14 @@ body[data-theme="green"] {
 }
 
 *{box-sizing:border-box}
-body{margin:0;background:#0d1220;color:#f3f5fc;
-font-family:Arial,"Microsoft YaHei",sans-serif}
+
+body{
+  margin:0;
+  background:var(--theme-bg);
+  color:var(--theme-text);
+  font-family:Arial,"Microsoft YaHei",sans-serif;
+}
+
 main{max-width:1120px;margin:auto;padding:36px 24px}
 header{display:flex;justify-content:space-between;
 align-items:center;margin-bottom:30px}
@@ -55,15 +61,23 @@ h1{font-size:26px;margin:0}
 border-radius:20px;padding:9px 14px;font-size:12px}
 .grid{display:grid;grid-template-columns:1.4fr 1fr;
 gap:20px}
-.card{background:#1a2336;border:1px solid #303c54;
-border-radius:18px;padding:26px}
+
+.card{
+  background:var(--theme-card);
+  border:1px solid #303c54;
+  border-radius:18px;
+  padding:26px;
+}
+
 .card h2{font-size:16px;margin:0 0 22px}
 .hero{text-align:center;padding:42px 20px}
 .muted{color:#9daac2}
 .timer{font-size:clamp(38px,5vw,65px);
 font-weight:800;letter-spacing:2px;margin:18px 0;
 font-variant-numeric:tabular-nums}
-.gold{color:#f3c675}
+
+.gold{color:var(--theme-accent)}
+
 .earned{font-size:clamp(32px,4vw,48px);
 font-weight:800;color:#79e3b4;margin:12px 0;
 overflow-wrap:anywhere}
