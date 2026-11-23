@@ -933,8 +933,23 @@ function getCalendarDailyIncome() {
       statusLabel.textContent = "☕ 休息";
     }
 
-    dayCell.appendChild(statusLabel);
-    calendarGrid.appendChild(dayCell);
+    
+dayCell.appendChild(statusLabel);
+
+// Display estimated daily income
+const incomeLabel = document.createElement("div");
+incomeLabel.className = "day-income";
+
+const dailyIncome =
+  currentStatus === "workday"
+    ? getCalendarDailyIncome()
+    : 0;
+
+incomeLabel.textContent = formatMoney(dailyIncome, 2);
+
+dayCell.appendChild(incomeLabel);
+calendarGrid.appendChild(dayCell);
+
 
   }
 }
