@@ -1432,6 +1432,45 @@ function updateDigitalClock() {
 updateDigitalClock();
 setInterval(updateDigitalClock, 1000);
 
+
+function updateClockLocation() {
+  const location = document.getElementById("clockLocation");
+  if (!location) return;
+
+  const savedCity = localStorage.getItem("workMotivatorCity");
+
+  location.textContent = savedCity
+    ? "📍 " + savedCity
+    : "📍 尚未设置位置";
+}
+
+const setClockCityButton = document.getElementById("setClockCity");
+
+if (setClockCityButton) {
+  setClockCityButton.addEventListener("click", function () {
+    const currentCity = localStorage.getItem("workMotivatorCity") || "";
+
+    const city = prompt(
+      "请输入城市和国家，例如：Colombo, Sri Lanka",
+      currentCity
+    );
+
+    if (city === null) return;
+
+    const newCity = city.trim();
+
+    if (!newCity) {
+      alert("城市名称不能为空");
+      return;
+    }
+
+    localStorage.setItem("workMotivatorCity", newCity);
+    updateClockLocation();
+  });
+}
+
+updateClockLocation();
+
 </script>
 </body>
 </html>
