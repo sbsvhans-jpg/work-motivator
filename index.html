@@ -972,6 +972,18 @@ $("nextMonth").addEventListener("click", function () {
 
 // Initial render
 renderWorkCalendar();
+  
+/* Refresh calendar when salary settings change */
+
+["salary", "days", "currency"].forEach(function (id) {
+  const input = $(id);
+
+  if (input) {
+    input.addEventListener("input", renderWorkCalendar);
+    input.addEventListener("change", renderWorkCalendar);
+  }
+});
+
 
 </script>
 </body>
