@@ -1472,7 +1472,8 @@ if (setClockCityButton) {
       return;
     }
 
-    localStorage.setItem("workMotivatorCity", newCity);
+    localStorage.setItem("workMotivatorCity", newCity); 
+    localStorage.setItem("workMotivatorCitySource", "manual");
     updateClockLocation();
   });
 }
