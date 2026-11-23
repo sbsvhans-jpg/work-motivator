@@ -1441,16 +1441,29 @@ updateDigitalClock();
 setInterval(updateDigitalClock, 1000);
 
 
+
 function updateClockLocation() {
   const location = document.getElementById("clockLocation");
   if (!location) return;
 
   const savedCity = localStorage.getItem("workMotivatorCity");
+  const source = localStorage.getItem("workMotivatorCitySource");
 
-  location.textContent = savedCity
-    ? "📍 " + savedCity
-    : "📍 尚未设置位置";
+  if (!savedCity) {
+    location.textContent = "📍 尚未设置位置";
+    return;
+  }
+
+  const mode = source === "auto"
+    ? "Auto"
+    : source === "manual"
+      ? "Manual"
+      : "";
+
+  location.textContent =
+    "📍 " + savedCity + (mode ? " · " + mode : "");
 }
+
 
 const setClockCityButton = document.getElementById("setClockCity");
 
