@@ -336,6 +336,31 @@ label {
   }
 }
 
+
+/* Calendar Work Status Label */
+
+.day-status {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--theme-text);
+}
+
+.calendar-day.workday .day-status {
+  color: var(--theme-accent);
+}
+
+.calendar-day.restday .day-status {
+  opacity: 0.75;
+}
+
+@media (max-width: 760px) {
+  .day-status {
+    font-size: 9px;
+    margin-top: 5px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -875,8 +900,22 @@ function renderWorkCalendar() {
     dayNumber.className = "day-number";
     dayNumber.textContent = day;
 
+    
     dayCell.appendChild(dayNumber);
+
+    // Display workday or restday label
+    const statusLabel = document.createElement("div");
+    statusLabel.className = "day-status";
+
+    if (currentStatus === "workday") {
+      statusLabel.textContent = "💼 上班";
+    } else {
+      statusLabel.textContent = "☕ 休息";
+    }
+
+    dayCell.appendChild(statusLabel);
     calendarGrid.appendChild(dayCell);
+
   }
 }
 
