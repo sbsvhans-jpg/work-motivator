@@ -966,6 +966,90 @@ function saveDailyIncomeRecord(dateKey) {
   return salary / days;
 }
 
+  
+/* V2.0 - Monthly Work Summary */
+
+function updateMonthlySummary() {
+  const year = calendarViewDate.getFullYear();
+  const month = calendarViewDate.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  let workDays = 0;
+  let restDays = 0;
+  let estimatedIncome = 0;
+
+  const dailyIncome = getCalendarDailyIncome();
+  const savedByCurrency = {};
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month, day);
+    const dateKey = getCalendarDateKey(year, month, day);
+    const record = calendarRecords[dateKey];
+
+    const defaultStatus =
+      date.getDay() === 0 || date.getDay() === 6
+        ? "restday"
+        : "workday";
+
+    const status =
+      record &&
+      (record.status === "workday" ||
+       record.status === "restday")
+        ? record.status
+        : defaultStatus;
+
+    if (status === "workday") {
+      workDays++;
+      estimatedIncome += dailyIncome;
+    } else {
+      restDays++;
+    }
+
+    if (
+      record &&
+      Object.prototype.hasOwnProperty.call(record, "income")
+    ) {
+      const amount = Number(record.income);
+      const currency = record.currency || $("currency").value;
+
+      if (Number.isFinite(amount)) {
+        savedByCurrency[currency] =
+          (savedByCurrency[currency] || 0) + amount;
+      }
+    }
+  }
+
+  $("monthlySummaryTitle").textContent =
+    "📊 " + year + "年" + (month + 1) + "月工作统计";
+
+  $("monthlyWorkDays").textContent = workDays + " 天";
+  $("monthlyRestDays").textContent = restDays + " 天";
+
+  $("monthlyEstimatedIncome").textContent =
+    formatMoney(estimatedIncome, 2);
+
+  const savedEntries = Object.entries(savedByCurrency);
+
+  if (savedEntries.length === 0) {
+    $("monthlySavedIncome").textContent = "暂无记录";
+  } else {
+    $("monthlySavedIncome").textContent =
+      savedEntries.map(([currency, amount]) => {
+        const symbols = {
+          MYR: "RM", USD: "$", SGD: "S$",
+          CNY: "¥", TWD: "NT$", HKD: "HK$",
+          VND: "₫", THB: "฿", LKR: "Rs", EUR: "€"
+        };
+
+        return (symbols[currency] || currency) + " " +
+          amount.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          });
+      }).join(" / ");
+  }
+}
+
   function renderWorkCalendar() {
   const year = calendarViewDate.getFullYear();
   const month = calendarViewDate.getMonth();
