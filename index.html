@@ -109,6 +109,103 @@ font-size:12px;margin-top:35px}
 header{gap:12px}
 .card{padding:20px}
 }
+
+/* V2.0 - Complete Theme Styling */
+
+:root {
+  --theme-muted: #9daac2;
+  --theme-border: #303c54;
+  --theme-input: #10182a;
+  --theme-button-text: #172033;
+}
+
+body[data-theme="light"] {
+  --theme-muted: #64748b;
+  --theme-border: #cbd5e1;
+  --theme-input: #f8fafc;
+  --theme-button-text: #ffffff;
+}
+
+body[data-theme="blue"] {
+  --theme-muted: #a5c9e9;
+  --theme-border: #30527d;
+  --theme-input: #0a2346;
+  --theme-button-text: #081a38;
+}
+
+body[data-theme="purple"] {
+  --theme-muted: #c8b6d8;
+  --theme-border: #624979;
+  --theme-input: #2b1b3c;
+  --theme-button-text: #21142f;
+}
+
+body[data-theme="green"] {
+  --theme-muted: #a3d6c5;
+  --theme-border: #376a5a;
+  --theme-input: #10352c;
+  --theme-button-text: #0c2621;
+}
+
+/* Apply theme colors */
+
+body {
+  transition: background 0.3s, color 0.3s;
+}
+
+.card {
+  border-color: var(--theme-border);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.muted, .sub {
+  color: var(--theme-muted);
+}
+
+button {
+  background: var(--theme-accent);
+  color: var(--theme-button-text);
+}
+
+button:hover {
+  filter: brightness(1.08);
+  background: var(--theme-accent);
+}
+
+input, select {
+  background: var(--theme-input);
+  color: var(--theme-text);
+  border-color: var(--theme-border);
+}
+
+label {
+  color: var(--theme-muted);
+}
+
+.stat strong, .quote {
+  color: var(--theme-accent);
+}
+
+.tag {
+  color: var(--theme-accent);
+  border-color: var(--theme-border);
+}
+
+.progress {
+  background: var(--theme-border);
+}
+
+.theme-selector {
+  min-width: 170px;
+}
+
+.theme-selector label {
+  margin: 0 0 6px;
+}
+
+.theme-selector select {
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
