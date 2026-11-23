@@ -1479,6 +1479,39 @@ if (setClockCityButton) {
 
 updateClockLocation();
 
+
+const detectClockCityButton = document.getElementById("detectClockCity");
+
+if (detectClockCityButton) {
+  detectClockCityButton.addEventListener("click", function () {
+    if (!navigator.geolocation) {
+      alert("你的浏览器不支持自动定位，请使用手动设置城市。");
+      return;
+    }
+
+    detectClockCityButton.disabled = true;
+    detectClockCityButton.textContent = "定位中...";
+
+    navigator.geolocation.getCurrentPosition(
+      function () {
+        alert("✅ 定位权限测试成功！下一步将自动识别城市。");
+        detectClockCityButton.disabled = false;
+        detectClockCityButton.textContent = "◎ 自动定位";
+      },
+      function (error) {
+        alert("定位失败：" + error.message);
+        detectClockCityButton.disabled = false;
+        detectClockCityButton.textContent = "◎ 自动定位";
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 15000,
+        maximumAge: 300000
+      }
+    );
+  });
+}
+
 </script>
 </body>
 </html>
