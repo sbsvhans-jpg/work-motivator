@@ -1600,6 +1600,44 @@ async function (position) {
   });
 }
 
+
+const openMiniModeButton = document.getElementById("openMiniMode");
+
+if (openMiniModeButton) {
+  openMiniModeButton.addEventListener("click", function () {
+    const miniWindow = window.open(
+      "",
+      "workMotivatorMini",
+      "width=420,height=300,resizable=yes,scrollbars=yes"
+    );
+
+    if (!miniWindow) {
+      alert("浏览器阻止了小窗，请允许此网站弹出窗口。");
+      return;
+    }
+
+    miniWindow.document.title = "⚡ 牛马鼓励器 Mini Mode";
+
+    miniWindow.document.body.innerHTML = `
+      <div style="
+        background:#171126;
+        color:white;
+        min-height:100vh;
+        padding:20px;
+        box-sizing:border-box;
+        font-family:Arial,sans-serif;
+      ">
+        <h2>⚡ 牛马鼓励器</h2>
+        <p>Mini Mode V2.2</p>
+        <p>小窗已成功开启！</p>
+      </div>
+    `;
+
+    miniWindow.document.body.style.margin = "0";
+    miniWindow.focus();
+  });
+}
+
 </script>
 </body>
 </html>
