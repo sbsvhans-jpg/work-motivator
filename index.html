@@ -1043,6 +1043,102 @@ renderWorkCalendar();
 });
 
 
+
+/* V2.0 - Save Today's Income Button */
+
+function updateTodayIncomeSavePanel() {
+  const now = new Date();
+
+  const todayKey = getCalendarDateKey(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  );
+
+  const record = calendarRecords[todayKey];
+  const info = $("dailyIncomeSaveInfo");
+  const button = $("saveTodayIncome");
+
+  if (!info || !button) return;
+
+  if (
+    record &&
+    Object.prototype.hasOwnProperty.call(record, "income")
+  ) {
+    const savedAmount = Number(record.income);
+    const savedCurrency = record.currency || $("currency").value;
+
+    info.textContent =
+      "已保存：" +
+      savedCurrency + " " +
+      savedAmount.toFixed(2);
+
+    button.textContent = "今日收入已保存";
+    button.disabled = true;
+  } else {
+    info.textContent =
+      "今日预计收入：" +
+      formatMoney(getCalendarDailyIncome(), 2);
+
+    button.textContent = "保存当天收入";
+    button.disabled = false;
+  }
+}
+
+$("saveTodayIncome").addEventListener("click", function () {
+  const now = new Date();
+
+  const todayKey = getCalendarDateKey(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  );
+
+  const todayRecord = calendarRecords[todayKey];
+
+  if (todayRecord?.status === "restday") {
+    alert("今天已标记为休息日，请先改为上班日。");
+    return;
+  }
+
+  if (todayRecord?.income !== undefined) {
+    updateTodayIncomeSavePanel();
+    return;
+  }
+
+  const amount = getCalendarDailyIncome();
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    alert("请先输入有效的月薪和工作天数。");
+    return;
+  }
+
+  const confirmed = confirm(
+    "确认保存今天的预计收入 " +
+    formatMoney(amount, 2) +
+    " 吗？保存后将作为历史记录保留。"
+  );
+
+  if (!confirmed) return;
+
+  if (saveDailyIncomeRecord(todayKey)) {
+    updateTodayIncomeSavePanel();
+    renderWorkCalendar();
+    alert("今日收入已成功保存！");
+  } else {
+    alert("保存失败，请检查浏览器储存空间。");
+  }
+});
+
+// Update panel when salary settings change
+["salary", "days", "currency"].forEach(function (id) {
+  $(id).addEventListener("input", updateTodayIncomeSavePanel);
+  $(id).addEventListener("change", updateTodayIncomeSavePanel);
+});
+
+// Initial panel display
+updateTodayIncomeSavePanel();
+
 </script>
 </body>
 </html>
