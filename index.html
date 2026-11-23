@@ -998,12 +998,45 @@ dayCell.appendChild(statusLabel);
 const incomeLabel = document.createElement("div");
 incomeLabel.className = "day-income";
 
-const dailyIncome =
-  currentStatus === "workday"
-    ? getCalendarDailyIncome()
-    : 0;
 
-incomeLabel.textContent = formatMoney(dailyIncome, 2);
+const hasSavedIncome =
+  savedRecord &&
+  Object.prototype.hasOwnProperty.call(
+    savedRecord,
+    "income"
+  );
+
+if (hasSavedIncome) {
+  const savedAmount = Number(savedRecord.income);
+  const savedCurrency = savedRecord.currency || $("currency").value;
+
+  const currencySymbols = {
+    MYR: "RM", USD: "$", SGD: "S$",
+    CNY: "¥", TWD: "NT$", HKD: "HK$",
+    VND: "₫", THB: "฿", LKR: "Rs", EUR: "€"
+  };
+
+  const symbol = currencySymbols[savedCurrency] || savedCurrency;
+
+  incomeLabel.textContent =
+    symbol + " " + savedAmount.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }) + " ✓";
+
+  incomeLabel.title = "已保存的历史收入";
+} else {
+  const dailyIncome =
+    currentStatus === "workday"
+      ? getCalendarDailyIncome()
+      : 0;
+
+  incomeLabel.textContent =
+    formatMoney(dailyIncome, 2);
+
+  incomeLabel.title = "预计收入";
+}
+
 
 dayCell.appendChild(incomeLabel);
 calendarGrid.appendChild(dayCell);
