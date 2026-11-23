@@ -728,6 +728,92 @@ $("lunarDate").textContent =
 updateDateDisplay();
 setInterval(updateDateDisplay, 60000);
 
+/* V2.0 - Work Calendar Engine */
+
+let calendarViewDate = new Date();
+calendarViewDate.setDate(1);
+
+function renderWorkCalendar() {
+  const year = calendarViewDate.getFullYear();
+  const month = calendarViewDate.getMonth();
+
+  const calendarGrid = $("calendarGrid");
+  const calendarMonth = $("calendarMonth");
+
+  calendarGrid.innerHTML = "";
+
+  calendarMonth.textContent =
+    year + "年" + (month + 1) + "月";
+
+  const firstDay = new Date(year, month, 1);
+  const daysInMonth =
+    new Date(year, month + 1, 0).getDate();
+
+  // Monday = 0, Sunday = 6
+  const startOffset = (firstDay.getDay() + 6) % 7;
+
+  const today = new Date();
+
+  // Add empty cells before the first day
+  for (let i = 0; i < startOffset; i++) {
+    const emptyCell = document.createElement("div");
+    emptyCell.className = "calendar-empty";
+    calendarGrid.appendChild(emptyCell);
+  }
+
+  // Generate each day of the month
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month, day);
+    const weekday = date.getDay();
+
+    const dayCell = document.createElement("button");
+    dayCell.type = "button";
+    dayCell.className = "calendar-day";
+
+    // Default: Monday-Friday workdays
+    if (weekday === 0 || weekday === 6) {
+      dayCell.classList.add("restday");
+    } else {
+      dayCell.classList.add("workday");
+    }
+
+    // Highlight today
+    if (
+      day === today.getDate() &&
+      month === today.getMonth() &&
+      year === today.getFullYear()
+    ) {
+      dayCell.classList.add("today");
+    }
+
+    const dayNumber = document.createElement("div");
+    dayNumber.className = "day-number";
+    dayNumber.textContent = day;
+
+    dayCell.appendChild(dayNumber);
+    calendarGrid.appendChild(dayCell);
+  }
+}
+
+// Previous month
+$("prevMonth").addEventListener("click", function () {
+  calendarViewDate.setMonth(
+    calendarViewDate.getMonth() - 1
+  );
+  renderWorkCalendar();
+});
+
+// Next month
+$("nextMonth").addEventListener("click", function () {
+  calendarViewDate.setMonth(
+    calendarViewDate.getMonth() + 1
+  );
+  renderWorkCalendar();
+});
+
+// Initial render
+renderWorkCalendar();
+
 </script>
 </body>
 </html>
