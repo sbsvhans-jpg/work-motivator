@@ -1843,30 +1843,161 @@ $("openMiniMode").addEventListener("click", function () {
 
   miniModeWindow.document.open();
 
-  miniModeWindow.document.write(`
-    <!DOCTYPE html>
-    <html lang="zh">
-    <head>
-      <meta charset="UTF-8">
-      <title>牛马鼓励器 · Mini Mode</title>
-      <style>
-        body {
-          margin: 0;
-          padding: 20px;
-          background: #111827;
-          color: white;
-          font-family: Arial, sans-serif;
-          text-align: center;
-        }
-      </style>
-    </head>
-    <body>
-      <h2>⚡ 牛马鼓励器</h2>
-      <p>Desktop Mini Mode</p>
-      <p>迷你窗口启动成功！</p>
-    </body>
-    </html>
-  `);
+  
+miniModeWindow.document.write(`
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>牛马鼓励器 · Mini Mode</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  --mini-bg: #111827;
+  --mini-accent: #f3c675;
+  --mini-muted: #94a3b8;
+  --mini-income: #79e3b4;
+  --mini-track: #35415a;
+  --mini-bar: #79e3b4;
+
+  margin: 0;
+  padding: 12px 16px;
+  background: var(--mini-bg);
+  color: white;
+  font-family: Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.mini-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.mini-brand {
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--mini-accent);
+}
+
+#miniClock {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--mini-accent);
+}
+
+.mini-date-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.mini-muted {
+  font-size: 11px;
+  color: var(--mini-muted);
+}
+
+#miniLunar {
+  margin-top: 4px;
+}
+
+.mini-divider {
+  border: 0;
+  border-top: 1px solid var(--mini-track);
+  margin: 9px 0;
+}
+
+.mini-main {
+  text-align: center;
+}
+
+#miniCountdown {
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--mini-accent);
+  margin: 3px 0 8px;
+}
+
+#miniEarned {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--mini-income);
+  margin: 3px 0 8px;
+  overflow-wrap: anywhere;
+}
+
+.mini-progress {
+  height: 28px;
+  background: var(--mini-track);
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  margin-top: 7px;
+}
+
+#miniBar {
+  width: 0%;
+  height: 100%;
+  background: var(--mini-bar);
+  border-radius: 14px;
+}
+
+#miniQuote {
+  color: var(--mini-accent);
+  font-size: 11px;
+  margin-top: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="mini-header">
+  <div class="mini-brand">⚡ 牛马鼓励器</div>
+  <div id="miniClock">00:00:00</div>
+</div>
+
+<div class="mini-date-row mini-muted">
+  <div id="miniDate">日期加载中...</div>
+  <div id="miniCity">城市加载中...</div>
+</div>
+
+<div class="mini-muted" id="miniLunar">
+  农历加载中...
+</div>
+
+<hr class="mini-divider">
+
+<div class="mini-main">
+
+  <div class="mini-muted">距离下班还有</div>
+  <div id="miniCountdown">00:00:00.00</div>
+
+  <div class="mini-muted">今天已经赚到</div>
+  <div id="miniEarned">RM 0.0000</div>
+
+  <div class="mini-muted" id="miniWorkInfo">
+    今日工作进度 0.0%
+  </div>
+
+  <div class="mini-progress" id="miniProgress">
+    <div id="miniBar"></div>
+  </div>
+
+  <div id="miniQuote">努力上班，快乐赚钱！</div>
+
+</div>
+
+</body>
+</html>
+`);
 
   miniModeWindow.document.close();
 
