@@ -2010,12 +2010,16 @@ function syncMiniModeData() {
 
   const miniDoc = miniModeWindow.document;
 
-  const syncItems = {
-    miniCountdown: "countdown",
-    miniEarned: "earned",
-    miniWorkInfo: "workInfo",
-    miniQuote: "quote"
-  };
+ 
+const syncItems = {
+  miniCountdown: "countdown",
+  miniEarned: "earned",
+  miniWorkInfo: "workInfo",
+  miniQuote: "quote",
+  miniClock: "digitalClock",
+  miniCity: "clockLocation"
+};
+
 
   Object.entries(syncItems).forEach(([target, source]) => {
     const targetElement = miniDoc.getElementById(target);
