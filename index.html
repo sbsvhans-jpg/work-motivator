@@ -2000,6 +2000,43 @@ body {
 `);
 
   miniModeWindow.document.close();
+  
+function syncMiniModeData() {
+
+  if (!miniModeWindow || miniModeWindow.closed) {
+    clearInterval(miniSyncTimer);
+    return;
+  }
+
+  const miniDoc = miniModeWindow.document;
+
+  const syncItems = {
+    miniCountdown: "countdown",
+    miniEarned: "earned",
+    miniWorkInfo: "workInfo",
+    miniQuote: "quote"
+  };
+
+  Object.entries(syncItems).forEach(([target, source]) => {
+    const targetElement = miniDoc.getElementById(target);
+    const sourceElement = $(source);
+
+    if (targetElement && sourceElement) {
+      targetElement.textContent = sourceElement.textContent;
+    }
+  });
+
+  const miniBar = miniDoc.getElementById("miniBar");
+
+  if (miniBar && $("bar")) {
+    miniBar.style.width = $("bar").style.width;
+  }
+}
+
+const miniSyncTimer = setInterval(syncMiniModeData, 30);
+
+syncMiniModeData();
+
 
 });
 
