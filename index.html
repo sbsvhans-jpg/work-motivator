@@ -740,6 +740,48 @@ body[data-theme="light"] #earned {
 }
 
 
+/* V2.3 - Dynamic Theme Income and Progress */
+
+body[data-theme] #earned {
+  color: var(--theme-income, #79e3b4) !important;
+}
+
+body[data-theme] #buddyProgress {
+  background: var(--theme-track, #35415a) !important;
+}
+
+body[data-theme] #bar {
+  background: var(--theme-progress, #79e3b4) !important;
+}
+
+/* Preserve Original Five Theme Colors */
+
+body[data-theme="dark"] {
+  --theme-income: #79e3b4;
+  --theme-progress: #79e3b4;
+}
+
+body[data-theme="light"] {
+  --theme-income: #22c55e;
+  --theme-track: #cbd5e1;
+  --theme-progress: #22c55e;
+}
+
+body[data-theme="blue"] {
+  --theme-income: #79e3b4;
+  --theme-progress: #60a5fa;
+}
+
+body[data-theme="purple"] {
+  --theme-income: #79e3b4;
+  --theme-progress: #c4b5fd;
+}
+
+body[data-theme="green"] {
+  --theme-income: #79e3b4;
+  --theme-progress: #79e3b4;
+}
+
 body[data-theme="blue"] .bar {
   background: #60a5fa;
 }
