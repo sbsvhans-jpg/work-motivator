@@ -895,6 +895,16 @@ let progress=elapsed/(duration*60)*100;
 
 $("earned").textContent=formatMoney(earned,4);
 $("bar").style.width=progress+"%";
+  
+const workBuddy = $("workBuddy");
+
+if (workBuddy) {
+  const buddyPercent = Math.max(0, Math.min(100, progress));
+
+  workBuddy.style.left =
+    `clamp(0px, calc(${buddyPercent}% - 44px), calc(100% - 44px))`;
+}
+
 $("workInfo").textContent=
 "今日工作进度 "+progress.toFixed(1)+"%";
 
