@@ -981,6 +981,7 @@ let progress=elapsed/(duration*60)*100;
 $("earned").textContent=formatMoney(earned,4);
 $("bar").style.width=progress+"%";
   
+
 const workBuddy = $("workBuddy");
 
 if (workBuddy) {
@@ -988,7 +989,16 @@ if (workBuddy) {
 
   workBuddy.style.left =
     `clamp(0px, calc(${buddyPercent}% - 44px), calc(100% - 44px))`;
+
+  if (buddyPercent >= 100) {
+    workBuddy.dataset.state = "finished";
+  } else if (buddyPercent <= 0) {
+    workBuddy.dataset.state = "idle";
+  } else {
+    workBuddy.dataset.state = "walking";
+  }
 }
+
 
 $("workInfo").textContent=
 "今日工作进度 "+progress.toFixed(1)+"%";
