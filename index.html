@@ -477,6 +477,39 @@ label {
   }
 }
 
+
+/* V2.2 Work Buddy Smart States */
+
+@keyframes buddyCelebrate {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* 上班前：静止休息 */
+#workBuddy[data-state="idle"] * {
+  animation: none;
+}
+
+/* 下班后：停止走路 */
+#workBuddy[data-state="finished"] * {
+  animation: none;
+}
+
+/* 下班后：开心跳动 */
+#workBuddy[data-state="finished"] svg {
+  animation: buddyCelebrate 0.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #workBuddy[data-state="finished"] svg {
+    animation: none !important;
+  }
+}
+  
 </style>
 </head>
 <body>
