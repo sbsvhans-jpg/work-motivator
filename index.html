@@ -1818,6 +1818,60 @@ if (openMiniModeButton) {
   });
 }
 
+
+// V2.2 Desktop Mini Mode
+
+let miniModeWindow = null;
+
+$("openMiniMode").addEventListener("click", function () {
+
+  if (miniModeWindow && !miniModeWindow.closed) {
+    miniModeWindow.focus();
+    return;
+  }
+
+  miniModeWindow = window.open(
+    "",
+    "workMotivatorMini",
+    "width=420,height=300,resizable=yes,scrollbars=yes"
+  );
+
+  if (!miniModeWindow) {
+    alert("请允许浏览器打开弹出窗口");
+    return;
+  }
+
+  miniModeWindow.document.open();
+
+  miniModeWindow.document.write(`
+    <!DOCTYPE html>
+    <html lang="zh">
+    <head>
+      <meta charset="UTF-8">
+      <title>牛马鼓励器 · Mini Mode</title>
+      <style>
+        body {
+          margin: 0;
+          padding: 20px;
+          background: #111827;
+          color: white;
+          font-family: Arial, sans-serif;
+          text-align: center;
+        }
+      </style>
+    </head>
+    <body>
+      <h2>⚡ 牛马鼓励器</h2>
+      <p>Desktop Mini Mode</p>
+      <p>迷你窗口启动成功！</p>
+    </body>
+    </html>
+  `);
+
+  miniModeWindow.document.close();
+
+});
+
 </script>
 </body>
 </html>
