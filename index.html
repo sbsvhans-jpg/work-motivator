@@ -2040,6 +2040,111 @@ const syncItems = {
   }
 }
 
+
+// V2.2 Mini Mode Work Buddy
+
+const miniBuddyDoc = miniModeWindow.document;
+const originalBuddy = $("workBuddy");
+const miniProgress = miniBuddyDoc.getElementById("miniProgress");
+
+if (originalBuddy && miniProgress) {
+
+  const miniBuddy = originalBuddy.cloneNode(true);
+
+  miniBuddy.style.width = "36px";
+  miniBuddy.style.height = "28px";
+  miniBuddy.style.top = "0px";
+
+  miniProgress.appendChild(miniBuddy);
+
+  const buddyStyle = miniBuddyDoc.createElement("style");
+
+  buddyStyle.textContent = `
+    @keyframes buddyBounce {
+      0%,100% { transform:translateY(0); }
+      50% { transform:translateY(-1px); }
+    }
+
+    @keyframes buddyWalkA {
+      0%,100% { transform:rotate(15deg); }
+      50% { transform:rotate(-15deg); }
+    }
+
+    @keyframes buddyWalkB {
+      0%,100% { transform:rotate(-15deg); }
+      50% { transform:rotate(15deg); }
+    }
+
+    @keyframes buddyTail {
+      0%,100% { transform:rotate(-8deg); }
+      50% { transform:rotate(8deg); }
+    }
+
+    @keyframes buddyCelebrate {
+      0%,100% { transform:translateY(0); }
+      50% { transform:translateY(-2px); }
+    }
+
+    #workBuddy[data-state="walking"] svg {
+      animation:buddyBounce .6s ease-in-out infinite;
+    }
+
+    #buddyLegs rect {
+      transform-box:fill-box;
+      transform-origin:top center;
+    }
+
+    #workBuddy[data-state="walking"] #buddyLegs rect:nth-child(1) {
+      animation:buddyWalkA .6s ease-in-out infinite;
+    }
+
+    #workBuddy[data-state="walking"] #buddyLegs rect:nth-child(2) {
+      animation:buddyWalkB .6s ease-in-out infinite;
+    }
+
+    #workBuddy[data-state="walking"] svg > g > path:first-child {
+      transform-box:fill-box;
+      transform-origin:right bottom;
+      animation:buddyTail .6s ease-in-out infinite;
+    }
+
+    #workBuddy[data-state="finished"] svg {
+      animation:buddyCelebrate .8s ease-in-out infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #workBuddy * {
+        animation:none !important;
+      }
+    }
+  `;
+
+  miniBuddyDoc.head.appendChild(buddyStyle);
+
+  const buddySyncTimer = setInterval(function () {
+
+    if (miniBuddyDoc.defaultView === null ||
+        !miniModeWindow ||
+        miniModeWindow.closed ||
+        miniModeWindow.document !== miniBuddyDoc) {
+      clearInterval(buddySyncTimer);
+      return;
+    }
+
+    const percent = Math.max(
+      0,
+      Math.min(100, parseFloat($("bar").style.width) || 0)
+    );
+
+    miniBuddy.style.left =
+      `clamp(0px, calc(${percent}% - 36px), calc(100% - 36px))`;
+
+    miniBuddy.dataset.state =
+      originalBuddy.dataset.state || "idle";
+
+  }, 50);
+}
+
 const miniSyncTimer = setInterval(syncMiniModeData, 30);
 
 syncMiniModeData();
