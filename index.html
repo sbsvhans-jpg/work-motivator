@@ -532,9 +532,53 @@ margin:32px 0">
 <div class="earned" id="earned">RM 0.00</div>
 <div class="muted" id="workInfo">计算中...</div>
 
+
 <div class="progress" id="buddyProgress" style="height:36px;position:relative;overflow:hidden;border-radius:18px">
   <div class="bar" id="bar" style="height:100%;border-radius:18px"></div>
+
+  <div id="workBuddy" style="position:absolute;left:4px;top:1px;width:44px;height:34px;pointer-events:none">
+    <svg viewBox="0 0 60 46" width="100%" height="100%">
+      <g stroke="#594039" stroke-width="1.5" stroke-linejoin="round">
+
+        <path d="M10 25 Q1 19 6 13" fill="none" stroke-width="3"/>
+
+        <ellipse cx="23" cy="28" rx="17" ry="12" fill="#FFF5E7"/>
+
+        <path d="M10 20 Q24 15 21 29 Q11 35 10 20" fill="#70504A" stroke="none"/>
+
+        <g id="buddyLegs">
+          <rect x="12" y="33" width="7" height="11" rx="3" fill="#FFF5E7"/>
+          <rect x="29" y="33" width="7" height="11" rx="3" fill="#FFF5E7"/>
+        </g>
+
+        <ellipse cx="31" cy="14" rx="8" ry="5" fill="#E7B6A2"/>
+        <ellipse cx="52" cy="14" rx="7" ry="5" fill="#E7B6A2"/>
+
+        <path d="M32 11 Q25 0 35 4 L39 11" fill="#E9CB91"/>
+        <path d="M45 11 Q53 0 54 5 L51 13" fill="#E9CB91"/>
+
+        <ellipse cx="42" cy="23" rx="16" ry="16" fill="#FFF5E7"/>
+
+        <path d="M30 13 Q43 6 40 21 Q30 25 30 13" fill="#70504A" stroke="none"/>
+
+        <ellipse cx="35" cy="22" rx="2.3" ry="3.2" fill="#342B28"/>
+        <ellipse cx="49" cy="22" rx="2.3" ry="3.2" fill="#342B28"/>
+
+        <circle cx="35.7" cy="21" r="0.8" fill="white" stroke="none"/>
+        <circle cx="49.7" cy="21" r="0.8" fill="white" stroke="none"/>
+
+        <ellipse cx="42" cy="32" rx="12" ry="7" fill="#F5B7B5"/>
+
+        <circle cx="37" cy="30" r="1.5" fill="#A56D69" stroke="none"/>
+        <circle cx="47" cy="30" r="1.5" fill="#A56D69" stroke="none"/>
+
+        <path d="M39 34 Q42 37 45 34" fill="none"/>
+
+      </g>
+    </svg>
+  </div>
 </div>
+
 
 <div class="quote" id="quote">努力上班，快乐赚钱！</div>
 <button id="quoteButton">✨ 再给我一点动力</button>
