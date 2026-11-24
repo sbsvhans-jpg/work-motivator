@@ -2010,6 +2010,28 @@ function syncMiniModeData() {
 
   const miniDoc = miniModeWindow.document;
 
+// V2.2 Mini Mode Theme Sync
+
+const miniBody = miniDoc.body;
+
+const themeColors = {
+  "--mini-bg": getComputedStyle(document.body).backgroundColor,
+  "--mini-accent": getComputedStyle($("countdown")).color,
+  "--mini-muted": getComputedStyle($("workInfo")).color,
+  "--mini-income": getComputedStyle($("earned")).color,
+  "--mini-track": getComputedStyle($("buddyProgress")).backgroundColor,
+  "--mini-bar": getComputedStyle($("bar")).backgroundColor
+};
+
+Object.entries(themeColors).forEach(([name, value]) => {
+  if (miniBody.style.getPropertyValue(name) !== value) {
+    miniBody.style.setProperty(name, value);
+  }
+});
+
+miniBody.style.color =
+  getComputedStyle(document.body).color;
+
  
 
 const syncItems = {
